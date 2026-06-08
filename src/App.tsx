@@ -117,11 +117,36 @@ function PhotoGallery() {
   const [selected, setSelected] = useState<number | null>(null);
   const selectedPhoto = PHOTOS.find((p) => p.id === selected);
 
+  // Intercept browser popstate to close lightbox on back button (mobile navigation)
+  useEffect(() => {
+    const handlePopState = () => {
+      setSelected(null);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  const openLightbox = (id: number) => {
+    setSelected(id);
+    window.history.pushState({ lightbox: id }, "");
+  };
+
+  const closeLightbox = () => {
+    setSelected(null);
+    if (window.history.state?.lightbox !== undefined) {
+      window.history.back();
+    }
+  };
+
   const navigate = (dir: "prev" | "next") => {
     if (selected === null) return;
     const idx = PHOTOS.findIndex((p) => p.id === selected);
     const next = dir === "next" ? (idx + 1) % PHOTOS.length : (idx - 1 + PHOTOS.length) % PHOTOS.length;
-    setSelected(PHOTOS[next].id);
+    const nextId = PHOTOS[next].id;
+    setSelected(nextId);
+    window.history.replaceState({ lightbox: nextId }, "");
   };
 
   return (
@@ -146,7 +171,7 @@ function PhotoGallery() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
             whileHover={{ scale: 1.015 }}
-            onClick={() => setSelected(photo.id)}
+            onClick={() => openLightbox(photo.id)}
           >
             <img
               src={photo.src}
@@ -163,16 +188,21 @@ function PhotoGallery() {
         {selected !== null && selectedPhoto && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center p-4"
-            onClick={() => setSelected(null)}>
+            onClick={closeLightbox}>
+            
+            {/* Floating Close Button on Backdrop */}
+            <button
+              onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+              className="absolute top-6 right-6 sm:top-8 sm:right-8 w-11 h-11 rounded-full bg-[#18101c]/80 border border-[#2a1a2e] flex items-center justify-center hover:bg-[#c03060]/20 transition-colors z-50 cursor-pointer text-[#f5ede0]"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
             <motion.div
               initial={{ scale: 0.88, y: 24 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.88, y: 24 }}
               transition={{ type: "spring", damping: 24, stiffness: 200 }}
               className="relative max-w-lg w-full card-luxury gloss-card p-4 flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}>
-              <button onClick={() => setSelected(null)}
-                className="absolute -top-4 -right-4 w-9 h-9 rounded-full bg-[#18101c] border border-[#2a1a2e] flex items-center justify-center hover:bg-[#c03060]/20 transition-colors z-10 cursor-pointer">
-                <X className="w-4 h-4 text-[#f5ede0]" />
-              </button>
               {["prev","next"].map((dir) => (
                 <button key={dir} onClick={() => navigate(dir as "prev"|"next")}
                   className={`absolute ${dir==="prev"?"left-3":"right-3"} top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 border border-[#2a1a2e] flex items-center justify-center hover:border-[#c9a96e]/50 transition-colors z-10 cursor-pointer`}>
