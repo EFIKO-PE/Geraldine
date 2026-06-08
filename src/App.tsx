@@ -656,8 +656,16 @@ export default function App() {
             <div>
               <h4 className="font-['Cormorant_Garamond'] text-lg italic mb-4" style={{ color: "#fdf8f2" }}>Contacto y Citas</h4>
               <ul className="space-y-3 font-light text-sm" style={{ color: "#857080" }}>
-                <li className="flex items-center gap-2.5"><Phone className="w-4 h-4 shrink-0" style={{ color: "#c9a96e" }} /><span>Contáctanos en nuestras redes</span></li>
-                <li className="flex items-center gap-2.5"><MapPin className="w-4 h-4 shrink-0" style={{ color: "#c03060" }} /><span>Huaral, Lima, Perú</span></li>
+                <li className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 shrink-0" style={{ color: "#c9a96e" }} />
+                  <a href="tel:986543449" className="hover:text-[#c9a96e] transition-colors">986 543 449</a>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <MapPin className="w-4 h-4 shrink-0" style={{ color: "#c03060" }} />
+                  <a href="https://maps.google.com/?q=Pje.Animas+155,+Huaral,+Peru,+15201" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8709a] transition-colors leading-snug">
+                    Pje. Animas 155, Huaral, Perú, 15201
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
