@@ -565,7 +565,7 @@ export default function App() {
             {
               icon: <Gem className="w-5 h-5" />, title: "Geraldine VIP", price: 200, original: 600,
               badge: "✦ Exclusivo Para Ti ✦", highlight: true,
-              features: ["S/. 400 de descuento exclusivo", "Brackets estéticos o metálicos a elección", "Evaluación + radiografía inicial GRATIS", "Brackets Morelli brasileños", "Limpieza dental"],
+              features: ["S/. 400 de descuento exclusivo", "Brackets metálicos autoligables", "Evaluación + radiografía inicial GRATIS", "Brackets Morelli brasileños", "Limpieza dental"],
               buttonLabel: "Reclamar mi descuento exclusivo",
               onAction: () => {
                 burstConfetti();
