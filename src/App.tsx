@@ -682,7 +682,7 @@ export default function App() {
               {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" style={{ color: "#c9a96e" }} />)}
             </div>
             <p className="font-light text-xs" style={{ color: "#857080" }}>
-              © 2025 Odonto Sonrisa Huaral · Hecho con{" "}
+              © 2026 Odonto Sonrisa Huaral · Hecho con{" "}
               <Heart className="w-3 h-3 fill-current inline" style={{ color: "#c03060" }} />{" "}
               para <span className="font-medium" style={{ color: "#c9a96e" }}>Geraldine Romero Mora, Miss Aucallama 👑</span>
             </p>
